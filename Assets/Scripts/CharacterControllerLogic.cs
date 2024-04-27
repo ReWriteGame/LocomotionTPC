@@ -37,6 +37,7 @@ public class CharacterControllerLogic : MonoBehaviour
     public float currentSpeed;
     public float direction;
     public float charAngle;
+    public float testSpeed;
 
     private const float SPRINT_FOV = 75.0f;
     private const float NORMAL_FOV = 60.0f;
@@ -144,7 +145,7 @@ public class CharacterControllerLogic : MonoBehaviour
 
 
         float currentHorSpeed = currentSpeed;// need make y = 0
-
+        testSpeed = character.velocity.magnitude;
         // accelerate or decelerate to target speed
         bool useSpeedCorrect = currentHorSpeed < targetSpeed - speedOffset ||
                                currentHorSpeed > targetSpeed + speedOffset;
