@@ -509,7 +509,7 @@ ModelImporter:
       firstFrame: 247
       lastFrame: 260
       wrapMode: 0
-      orientationOffsetY: -12.505
+      orientationOffsetY: -12.5
       level: 0
       cycleOffset: 0
       loop: 0
@@ -530,7 +530,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 53
     isReadable: 1
   meshes:
     lODScreenPercentages: []
