@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 public class CharacterControllerLogic : MonoBehaviour
 {
     [SerializeField] private Camera camera;
-
+    [SerializeField] private Animator animator;
     [SerializeField] private float moveSpeed = 1.5f;
     [SerializeField] private float sprintSpeed = 2;
 
@@ -30,7 +30,7 @@ public class CharacterControllerLogic : MonoBehaviour
     
     private AnimatorStateInfo stateInfo;
     private AnimatorTransitionInfo transInfo;
-    private Animator animator;
+   
     private CharacterController character;
 
     [Header("Dynamic")] public Vector2 inputDirection;
@@ -78,7 +78,6 @@ public class CharacterControllerLogic : MonoBehaviour
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
         character = GetComponent<CharacterController>();
 
         if (animator.layerCount >= 2)

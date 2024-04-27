@@ -1,16 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class TestSM : StateMachineBehaviour
+public class AngleLockSM : StateMachineBehaviour
 {
     public float angleFix;
-    public float test;
     
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         angleFix = animator.GetFloat("Angle");
-        test = animator.GetFloat("Angle");
         animator.SetFloat("AngleFix", angleFix);
     }
 
@@ -18,5 +14,4 @@ public class TestSM : StateMachineBehaviour
     {
         angleFix = 0;
     }
-
 }
