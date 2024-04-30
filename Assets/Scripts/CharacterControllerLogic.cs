@@ -39,6 +39,8 @@ public class CharacterControllerLogic : MonoBehaviour
     public float charAngle;
     public float testSpeed;
 
+    [Header("Test Animation")] 
+    public bool useInter = false;
     private const float SPRINT_FOV = 75.0f;
     private const float NORMAL_FOV = 60.0f;
 
@@ -115,6 +117,9 @@ public class CharacterControllerLogic : MonoBehaviour
         //currentSpeed = (isSprint ? sprintSpeed : moveSpeed) * inputDirection.magnitude;
         //currentSpeed = Round(currentSpeed);
         //animator.SetFloat("Speed", currentSpeed, speedDampTime, Time.deltaTime);
+        
+        if(!useInter)animator.SetFloat("Speed", currentSpeed);
+        animator.SetFloat("Speed", currentSpeed, speedDampTime, Time.deltaTime);
         
         animator.SetFloat("Direction", direction, directionDampTime, Time.deltaTime);
         animator.SetFloat("Angle", charAngle);
