@@ -1457,8 +1457,8 @@ ModelImporter:
       name: WalkRightWide
       takeName: _6_a_U1_M_P_WalkForwardTurnRight_NtrlWide__Fb_Dia1m_No_0_PJ_1
       internalID: 0
-      firstFrame: 176.7
-      lastFrame: 207.9
+      firstFrame: 177
+      lastFrame: 207
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -1486,8 +1486,8 @@ ModelImporter:
       name: WalkLeftWide
       takeName: _6_a_U1_M_P_WalkForwardTurnRight_NtrlWide__Fb_Dia1m_No_0_PJ_1
       internalID: 0
-      firstFrame: 176.7
-      lastFrame: 207.5
+      firstFrame: 177
+      lastFrame: 207
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

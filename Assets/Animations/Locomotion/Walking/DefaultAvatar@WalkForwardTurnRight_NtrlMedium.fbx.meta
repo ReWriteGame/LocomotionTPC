@@ -1457,8 +1457,8 @@ ModelImporter:
       name: WalkRightMedium
       takeName: _7_a_U1_M_P_WalkForwardTurnRight_NtrlMedium__Fb_Dia2m_No_0_PJ_1
       internalID: 0
-      firstFrame: 90.6
-      lastFrame: 122.100006
+      firstFrame: 90
+      lastFrame: 120
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -1486,8 +1486,8 @@ ModelImporter:
       name: WalkLeftMedium
       takeName: _7_a_U1_M_P_WalkForwardTurnRight_NtrlMedium__Fb_Dia2m_No_0_PJ_1
       internalID: 0
-      firstFrame: 90.6
-      lastFrame: 122.100006
+      firstFrame: 90
+      lastFrame: 120
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

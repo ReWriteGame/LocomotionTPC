@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine.Serialization;
 
 
@@ -15,7 +16,7 @@ public class CharacterControllerLogic : MonoBehaviour
     [SerializeField] private float rotationDegreePerSecond = 120f;
     [SerializeField] private float directionDampTime = 0.25f;
     [SerializeField] private float speedDampTime = 0.05f;
-    
+
     [SerializeField] private float fovDampTime = 3f;
 
     [SerializeField] private float jumpMultiplier = 1f;
@@ -23,14 +24,14 @@ public class CharacterControllerLogic : MonoBehaviour
 
     [SerializeField] private float speedOffset = 0.1f;
     [SerializeField] private float speedChangeRate = 10.0f;
-    
-    [SerializeField]private bool isSprint;
-    [SerializeField]private bool analogMovement;
-    [SerializeField]private float targetSpeed;
-    
-    private AnimatorStateInfo stateInfo;
+
+    [SerializeField] private bool isSprint;
+    [SerializeField] private bool analogMovement;
+    [SerializeField] private float targetSpeed;
+
+    private AnimatorStateInfo currentStateInfo;
     private AnimatorTransitionInfo transInfo;
-   
+
     private CharacterController character;
 
     [Header("Dynamic")] public Vector2 inputDirection;
@@ -47,6 +48,8 @@ public class CharacterControllerLogic : MonoBehaviour
     private int m_LocomotionPivotRId;
     private int m_LocomotionPivotLTransId;
     private int m_LocomotionPivotRTransId;
+    
+    private int startMoveToEndMoveTransId;
 
     public Animator Animator => animator;
     public float CurrentSpeed => currentSpeed;
@@ -89,6 +92,7 @@ public class CharacterControllerLogic : MonoBehaviour
         m_LocomotionPivotRId = Animator.StringToHash("Base Layer.LocomotionPivotR");
         m_LocomotionPivotLTransId = Animator.StringToHash("Locomotion -> LocomotionPivotL");
         m_LocomotionPivotRTransId = Animator.StringToHash("Locomotion -> LocomotionPivotR");
+        startMoveToEndMoveTransId = Animator.StringToHash("StartLocomotion -> StopLocomotion");
     }
 
 
@@ -96,10 +100,11 @@ public class CharacterControllerLogic : MonoBehaviour
     {
     }
 
-    
+
     private void Update()
     {
-        stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        currentStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        currentStateInfo = animator.GetCurrentAnimatorStateInfo(0);
         transInfo = animator.GetAnimatorTransitionInfo(0);
 
         GetInputDirection();
@@ -112,10 +117,12 @@ public class CharacterControllerLogic : MonoBehaviour
         MoveSpeedCalculation();
         animator.SetFloat("Speed", currentSpeed);
         
+        
+
         //currentSpeed = (isSprint ? sprintSpeed : moveSpeed) * inputDirection.magnitude;
         //currentSpeed = Round(currentSpeed);
         //animator.SetFloat("Speed", currentSpeed, speedDampTime, Time.deltaTime);
-        
+
         animator.SetFloat("Direction", direction, directionDampTime, Time.deltaTime);
         animator.SetFloat("Angle", charAngle);
 
@@ -123,17 +130,47 @@ public class CharacterControllerLogic : MonoBehaviour
         {
             animator.SetFloat("Direction", 0f);
             animator.SetFloat("Angle", 0f);
-           // animator.SetFloat("Speed", 0f);
+            // animator.SetFloat("Speed", 0f);
         }
 
         animator.SetBool("Jump", isJump);
-        
-        
+
+
         //////////////////////////////////////Other//////////////////////////////////////
-        
+
         float curFOV = isSprint ? SPRINT_FOV : NORMAL_FOV;
         camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, curFOV, fovDampTime * Time.deltaTime);
+
+        /////////////////////////////////////////////////////////////
+
+        isButtonPressed = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || 
+                          Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D);
+
+        if (!isButtonPressed) reset = true;
+
+        if (isButtonPressed && reset)
+        {
+            buttonHoldTime = 0;
+            reset = false;
+        }
+        
+        if (isButtonPressed)buttonHoldTime += Time.deltaTime;
+       
+        animator.SetFloat("InputSpeed", buttonHoldTime);
+        animator.SetBool("IsInput", isButtonPressed);
+
+
+
+        if (startMoveToEndMoveTransId == transInfo.nameHash)
+        {
+           // transInfo. = 2;
+        }
+
     }
+
+   public bool isButtonPressed = false;
+   public bool reset = false;
+   public float buttonHoldTime = 0f;
 
     private void MoveSpeedCalculation()
     {
@@ -144,7 +181,7 @@ public class CharacterControllerLogic : MonoBehaviour
         targetSpeed = maxSpeed * inputMagnitude;
 
 
-        float currentHorSpeed = currentSpeed;// need make y = 0
+        float currentHorSpeed = currentSpeed; // need make y = 0
         testSpeed = character.velocity.magnitude;
         // accelerate or decelerate to target speed
         bool useSpeedCorrect = currentHorSpeed < targetSpeed - speedOffset ||
@@ -190,12 +227,12 @@ public class CharacterControllerLogic : MonoBehaviour
     public bool IsInJump() => IsInIdleJump() || IsInLocomotionJump();
     public bool IsInIdleJump() => animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.IdleJump");
     public bool IsInLocomotionJump() => animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.LocomotionJump");
-    public bool IsInLocomotion() => stateInfo.nameHash == m_LocomotionId;
+    public bool IsInLocomotion() => currentStateInfo.nameHash == m_LocomotionId;
 
     public bool IsInPivot()
     {
-        return stateInfo.nameHash == m_LocomotionPivotLId ||
-               stateInfo.nameHash == m_LocomotionPivotRId ||
+        return currentStateInfo.nameHash == m_LocomotionPivotLId ||
+               currentStateInfo.nameHash == m_LocomotionPivotRId ||
                transInfo.nameHash == m_LocomotionPivotLTransId ||
                transInfo.nameHash == m_LocomotionPivotRTransId;
     }

@@ -1457,8 +1457,8 @@ ModelImporter:
       name: WalkRightShort
       takeName: _8_a_U1_M_P_WalkForwardTurnRight_NtrlShort__Fb_Dia1m_No_0_PJ_4
       internalID: 0
-      firstFrame: 53.3
-      lastFrame: 84
+      firstFrame: 53
+      lastFrame: 83
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -1486,8 +1486,8 @@ ModelImporter:
       name: WalkLeftShort
       takeName: _8_a_U1_M_P_WalkForwardTurnRight_NtrlShort__Fb_Dia1m_No_0_PJ_4
       internalID: 0
-      firstFrame: 53.3
-      lastFrame: 84
+      firstFrame: 53
+      lastFrame: 83
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
