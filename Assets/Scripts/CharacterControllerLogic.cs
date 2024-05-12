@@ -8,6 +8,8 @@ using UnityEngine.Serialization;
 
 public class CharacterControllerLogic : MonoBehaviour
 {
+    [SerializeField] private FootState footState;
+    
     [SerializeField] private Camera camera;
     [SerializeField] private Animator animator;
     [SerializeField] private float moveSpeed = 1.5f;
@@ -166,9 +168,14 @@ public class CharacterControllerLogic : MonoBehaviour
            // transInfo. = 2;
         }
 
+        animator.SetFloat("FootDistanceInput", footState.footDistance + addDur);
+        animator.SetFloat("TimeStop2", footState.footDistance2 + addTime);
+        //animator.SetFloat("TimeStop", footState.footDistance);
     }
 
    public bool isButtonPressed = false;
+   public float addTime;
+   public float addDur;
    public bool reset = false;
    public float buttonHoldTime = 0f;
 
@@ -287,6 +294,14 @@ public class CharacterControllerLogic : MonoBehaviour
 
     private Vector3[] points = new[] { Vector3.forward };
 
+    
+    /* Vector3 CalcProjection(Vector3 A, Vector3 B, Vector3 C)
+    {
+        var a = B - A;
+        var c = C - A;
+        var X = A + Vector3.Project(a, c.normalized);
+        return X;
+    }*/
     private IEnumerator fdd()
     {
         points = new Vector3[10];
