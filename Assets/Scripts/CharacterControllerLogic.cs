@@ -148,33 +148,33 @@ public class CharacterControllerLogic : MonoBehaviour
         isButtonPressed = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || 
                           Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D);
 
+        //isButtonPressed = true;
         if (!isButtonPressed) reset = true;
 
+        maxSpped = Mathf.Max(maxSpped,currentSpeed);
         if (isButtonPressed && reset)
         {
             buttonHoldTime = 0;
+            maxSpped = 0;
             reset = false;
         }
         
         if (isButtonPressed)buttonHoldTime += Time.deltaTime;
        
-        animator.SetFloat("InputSpeed", buttonHoldTime);
+        animator.SetFloat("ButtonHold", buttonHoldTime);
         animator.SetBool("IsInput", isButtonPressed);
 
 
-
-        if (startMoveToEndMoveTransId == transInfo.nameHash)
-        {
-           // transInfo. = 2;
-        }
-
         animator.SetFloat("FootDistanceInput", footState.footDistance + addDur);
-        animator.SetFloat("TimeStop2", footState.footDistance2 + addTime);
-        //animator.SetFloat("TimeStop", footState.footDistance);
+        animator.SetFloat("ForwardFootInput", footState.forwardFoot ? 1: -1);
+        animator.SetFloat("StableFootInput", footState.stableFoot ? 1: -1);
+
+       
+        animator.SetFloat("MaxInput", maxSpped);
     }
 
    public bool isButtonPressed = false;
-   public float addTime;
+   public float maxSpped;
    public float addDur;
    public bool reset = false;
    public float buttonHoldTime = 0f;
